@@ -1,0 +1,56 @@
+git 合并几个commit
+
+git log --oneline 一条一条查看git日志
+git rebase -i HEAD~n n为数字，可以合并多条commit，修改commit内容
+进入vim编辑页面后 按i就是insert 就可以根据上面的提示修改
+修改好之后按esc 再按:wq保存退出
+
+git rebase --continue 继续下一个rebase
+git rebase --abort 取消rebase合并
+git checkout -b 分支名 本地新建分支
+// 实操
+git checkout -b dev origin/master 基于远程库master分支
+git checkout -b dev  复制当前分支到创建新分支dev，并且切换过去
+git pull origin master 拉取
+git branch -D dev 删除没合并进来的分支
+git branch -d dev 删除已经合并进来的分支
+代码写错分支：
+先添加暂存区git add .
+然后git stash 
+然后切换分支 git checkout [分支]
+然后释放 git stash pop
+就会发现暂存的代码移到另一个分支了
+
+
+git pull gs master --rebase 拉去最近的代码合并
+
+修改commit内容 || 合并到上一次commit
+git commit --amend
+按键i可进入编辑模式（与vim用法相同）。
+esc 之后 :wq 保存
+
+git push origin dev -f 强制替换之前push的
+
+git push origin dev:dev1
+
+git add <文件名，也可以是路径+文件名> 用来提交一个文件到暂存区，使其状态变成Staged（暂存状态）
+
+git rm --cached <文件名，也可以是路径+文件名> 移除暂存区的文件，使其状态变成Untracked（未跟踪）
+
+git branch 列出本地所有分支
+
+git branch -r 列出所有远程分支
+
+git branch -a 列出本地和远程分支
+ 
+git branch dev 新建dev分支但是保留在当前分支
+
+git branch -D dev 删除dev分支
+
+git checkout -b dev 新建一个分支并且切换到该分支
+
+git merge [branch] 合并指定分支到当前分支 假如我当前在master分支，我想把dev分支合并过来，我需要操作git merge dev
+
+git stash 保存工作状态
+
+git stash pop 恢复工作状态

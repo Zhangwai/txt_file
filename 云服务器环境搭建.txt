@@ -1,0 +1,116 @@
+打开 git bash 使用以下命令远程连接进入云服务器
+ssh root@121.41.178.35（root用户名、121.41.178.35公网地址）
+接着会问你是否继续连接，你输入yes
+之后会让你输入密码（用户名：root ，密码：Zw19981201）
+安装的CentOS 8.2是默认安装了dnf的 CentOs7用yum去安装dnf
+接着去安装java1.8 
+输入命令 dnf search java-1.8
+接着安装 dnf install java-1.8.0-openjdk.x86_64
+确定安装？ y
+安装完毕
+安装jenkins
+wget –O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+看一下jenkins.repo文件下载位置是否在/etc/yum.repos.d/
+没在的话进行移动mv jenkins.repo /etc/yum.repos.d/
+# 导入GPG密钥以确保您的软件合法
+rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+# 或者
+rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+编辑一下文件/etc/yum.repos.d/jenkins.repo
+vi jenkins.repo 进入vim编辑
+编辑成如下：
+[jenkins]
+
+name=Jenkins-stable
+
+baseurl=http://pkg.jenkins.io/redhat
+
+gpgcheck=1
+
+保存退出
+	
+安装jenkins
+dnf install jenkins
+
+安装完成
+
+启动Jenkins的服务：
+
+systemctl start jenkins 启动
+systemctl status jenkins 查看状态
+systemctl enable jenkins 随操作系统重启而重启 报错提示敲入/usr/lib/systemd/systemd-sysv-install enable jenkins
+
+直接访问公网地址8080端口访问不了
+配置网络安全组
+
+把8080端口开启  0.0.0.0/0 添加进去
+
+再次访问公网8080端口
+进去了查看密码操作cat /var/lib/jenkins/secrets/initialAdminPassword
+
+得到0e7b0fe4a81d4bfe844d2f93f6b31682
+
+登录成功
+
+下载插件（社区）
+
+创建管理员（zhangwai Zw19981201）
+
+Jenkins环境搭建完成
+=============================================================
+开始搭建nginx
+安装nginx:
+dnf install nginx
+
+启动nginx：
+
+systemctl start nginx
+systemctl status nginx
+systemctl enable nginx
+
+公网访问80端口就能访问到nginx，如果进不去请配置服务器的网络安全组
+
+改nginx的默认访问文件（也就是改80端口访问的首页）
+
+进入服务器目录/ect/nginx/nginx.conf
+
+修改第一行非注释带代码（user nginx）为user root
+修改http{server{把这里面的root注释，在location/{在加上自定义目录root /root/app;   index index.html;}}}
+
+重启nginx 
+systemctl restart nginx
+
+把项目代码push到github
+
+在服务器上面安装git
+
+回到网页8080端口的jenkins 
+创建freestyle任务
+如果github为私有仓库就要认证
+
+选择定时构建
+ 安装node插件
+
+改jenkins配置文件(找不到就是权限问题 在vscode找不到文件，直接去git bash 里面找)
+/etc/sysconfig/jenkins
+改JENKINS_USER="root"
+
+构建命令
+pwd
+node -v
+npm -v
+
+npm install
+npm run build
+
+echo '构建完成- '
+ls
+
+rm -rf /root/app/*
+cp -rf ./dist/* /root/app/
+
+构建就行了
+
+
+
+
