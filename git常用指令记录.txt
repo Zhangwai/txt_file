@@ -21,6 +21,10 @@ git branch -d dev 删除已经合并进来的分支
 然后释放 git stash pop
 就会发现暂存的代码移到另一个分支了
 
+退版本：
+git log 查看提交历史
+长串就是版本号
+git reset --hard [版本号]
 
 git pull gs master --rebase 拉去最近的代码合并
 
