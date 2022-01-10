@@ -1,0 +1,8 @@
+l = -1 ,r = N
+while l+1 != r
+   m = Math.floor(r+l)/2
+   if(isLeft)
+      l = m
+   else
+      r= m
+return l or r
